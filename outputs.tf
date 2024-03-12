@@ -13,9 +13,9 @@ output "enabled" {
   description = "True if module is enabled, false otherwise"
 }
 
-output "namespace" {
-  value       = local.enabled ? local.namespace : ""
-  description = "Normalized namespace"
+output "platform" {
+  value       = local.enabled ? local.platform : ""
+  description = "Normalized platform"
 }
 
 output "tenant" {
@@ -40,7 +40,7 @@ output "stage" {
 
 output "delimiter" {
   value       = local.enabled ? local.delimiter : ""
-  description = "Delimiter between `namespace`, `tenant`, `environment`, `stage`, `name` and `attributes`"
+  description = "Delimiter between `platform`, `tenant`, `environment`, `stage`, `name` and `attributes`"
 }
 
 output "attributes" {

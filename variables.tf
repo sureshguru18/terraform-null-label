@@ -2,7 +2,7 @@ variable "context" {
   type = any
   default = {
     enabled             = true
-    namespace           = null
+    platform           = null
     tenant              = null
     environment         = null
     stage               = null
@@ -51,7 +51,7 @@ variable "enabled" {
   description = "Set to false to prevent the module from creating any resources"
 }
 
-variable "namespace" {
+variable "platform" {
   type        = string
   default     = null
   description = "ID element. Usually an abbreviation of your organization name, e.g. 'eg' or 'cp', to help ensure generated IDs are globally unique"
@@ -144,7 +144,7 @@ variable "label_order" {
   default     = null
   description = <<-EOT
     The order in which the labels (ID elements) appear in the `id`.
-    Defaults to ["namespace", "environment", "stage", "name", "attributes"].
+    Defaults to ["platform", "environment", "stage", "name", "attributes"].
     You can omit any of the 6 labels ("tenant" is the 6th), but at least one must be present.
     EOT
 }

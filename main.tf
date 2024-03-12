@@ -4,7 +4,7 @@ locals {
     # The `tenant` label was introduced in v0.25.0. To preserve backward compatibility, or, really, to ensure
     # that people using the `tenant` label are alerted that it was not previously supported if they try to
     # use it in an older version, it is not included by default.
-    label_order         = ["namespace", "environment", "stage", "name", "attributes"]
+    label_order         = ["platform", "environment", "stage", "name", "attributes"]
     regex_replace_chars = "/[^-a-zA-Z0-9]/"
     delimiter           = "-"
     replacement         = ""
@@ -46,7 +46,7 @@ locals {
     # It would be nice to use coalesce here, but we cannot, because it
     # is an error for all the arguments to coalesce to be empty.
     enabled   = var.enabled == null ? var.context.enabled : var.enabled
-    namespace = var.namespace == null ? var.context.namespace : var.namespace
+    platform = var.platform == null ? var.context.platform : var.platform
     # tenant was introduced in v0.25.0, prior context versions do not have it
     tenant      = var.tenant == null ? lookup(var.context, "tenant", null) : var.tenant
     environment = var.environment == null ? var.context.environment : var.environment
@@ -73,7 +73,7 @@ locals {
   regex_replace_chars = coalesce(local.input.regex_replace_chars, local.defaults.regex_replace_chars)
 
   # string_label_names are names of inputs that are strings (not list of strings) used as labels
-  string_label_names = ["namespace", "tenant", "environment", "stage", "name"]
+  string_label_names = ["platform", "tenant", "environment", "stage", "name"]
   normalized_labels = { for k in local.string_label_names : k =>
     local.input[k] == null ? "" : replace(local.input[k], local.regex_replace_chars, local.replacement)
   }
@@ -90,7 +90,7 @@ locals {
     local.label_value_case == "upper" ? upper(v) : lower(v))
   ]))
 
-  namespace   = local.formatted_labels["namespace"]
+  platform   = local.formatted_labels["platform"]
   tenant      = local.formatted_labels["tenant"]
   environment = local.formatted_labels["environment"]
   stage       = local.formatted_labels["stage"]
@@ -121,7 +121,7 @@ locals {
   ])
 
   tags_context = {
-    namespace   = local.namespace
+    platform   = local.platform
     tenant      = local.tenant
     environment = local.environment
     stage       = local.stage
@@ -138,7 +138,7 @@ locals {
   }
 
   id_context = {
-    namespace   = local.namespace
+    platform   = local.platform
     tenant      = local.tenant
     environment = local.environment
     stage       = local.stage
@@ -169,7 +169,7 @@ locals {
   # Context of this label to pass to other label modules
   output_context = {
     enabled             = local.enabled
-    namespace           = local.namespace
+    platform           = local.platform
     tenant              = local.tenant
     environment         = local.environment
     stage               = local.stage
